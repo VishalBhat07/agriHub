@@ -36,18 +36,18 @@ function LeftSection() {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
+        delayChildren: 0.3,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.6, type: "spring", stiffness: 50 }
-    }
+      transition: { duration: 0.6, type: "spring", stiffness: 50 },
+    },
   };
 
   return (
@@ -62,7 +62,7 @@ function LeftSection() {
         <h1 className="text-4xl font-bold text-[#283618] mb-2">
           Contact <span className="text-[#606C38]">BharathHarvest</span>
         </h1>
-        <motion.div 
+        <motion.div
           className="h-1 w-20 bg-[#DDA15E] rounded-full"
           initial={{ width: 0 }}
           whileInView={{ width: 80 }}
@@ -79,10 +79,7 @@ function LeftSection() {
         viewport={{ once: true }}
         className="space-y-6"
       >
-        <motion.div 
-          variants={itemVariants}
-          className="group"
-        >
+        <motion.div variants={itemVariants} className="group">
           <label
             htmlFor="name"
             className="block text-[#283618] font-medium mb-2"
@@ -102,10 +99,7 @@ function LeftSection() {
           />
         </motion.div>
 
-        <motion.div 
-          variants={itemVariants}
-          className="group"
-        >
+        <motion.div variants={itemVariants} className="group">
           <label
             htmlFor="email"
             className="block text-[#283618] font-medium mb-2"
@@ -125,10 +119,7 @@ function LeftSection() {
           />
         </motion.div>
 
-        <motion.div 
-          variants={itemVariants}
-          className="group"
-        >
+        <motion.div variants={itemVariants} className="group">
           <label
             htmlFor="message"
             className="block text-[#283618] font-medium mb-2"
@@ -170,7 +161,7 @@ function RightSection() {
     {
       icon: faEnvelope,
       title: "Email",
-      text: "vssreenivaas@bharathharvest.com",
+      text: "admin@bharathharvest.com",
       action: "Email Us",
     },
     {
@@ -196,7 +187,7 @@ function RightSection() {
         transition={{ duration: 1 }}
         className="mb-12"
       >
-        <motion.div 
+        <motion.div
           className="flex items-center justify-center w-32 h-32 bg-[#FEFAE0] rounded-full"
           whileHover={{ rotate: 360 }}
           transition={{ duration: 2 }}
@@ -209,7 +200,7 @@ function RightSection() {
       </motion.div>
 
       <div className="w-full max-w-lg">
-        <motion.ul 
+        <motion.ul
           className="space-y-4"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -227,10 +218,14 @@ function RightSection() {
               whileHover={{ x: 5 }}
             >
               <div className="flex items-center gap-4">
-                <motion.div 
+                <motion.div
                   className="w-10 h-10 rounded-full bg-[#DDA15E]/20 flex items-center justify-center"
                   animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                 >
                   <FontAwesomeIcon
                     icon={contact.icon}
@@ -238,8 +233,12 @@ function RightSection() {
                   />
                 </motion.div>
                 <div>
-                  <div className="font-semibold text-[#FEFAE0]">{contact.title}</div>
-                  <div className="text-sm text-[#FEFAE0]/80">{contact.text}</div>
+                  <div className="font-semibold text-[#FEFAE0]">
+                    {contact.title}
+                  </div>
+                  <div className="text-sm text-[#FEFAE0]/80">
+                    {contact.text}
+                  </div>
                 </div>
               </div>
               <motion.div
