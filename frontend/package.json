@@ -11,24 +11,42 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-brands-svg-icons": "^7.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
     "@fortawesome/react-fontawesome": "^3.0.0",
+    "@radix-ui/react-select": "^2.2.6",
     "@tailwindcss/vite": "^4.1.12",
+    "aos": "^2.3.4",
+    "autoprefixer": "^10.4.21",
+    "axios": "^1.11.0",
+    "eslint-plugin-react": "^7.37.5",
+    "firebase": "^12.1.0",
+    "flowbite": "^3.1.2",
+    "flowbite-react": "^0.12.7",
     "framer-motion": "^12.23.12",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.541.0",
+    "postcss": "^8.5.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.8.1",
-    "tailwindcss": "^4.1.12"
+    "react-spinners": "^0.17.0",
+    "react-toastify": "^11.0.5",
+    "tailwindcss": "^4.1.12",
+    "unsplash-js": "^7.0.19",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@types/react": "^19.1.10",
+    "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.7",
-    "@vitejs/plugin-react": "^5.0.0",
+    "@vitejs/plugin-react": "^5.0.1",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
-    "vite": "^7.1.2"
+    "vite": "^7.1.3"
   }
 }
