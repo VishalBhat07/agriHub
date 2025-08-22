@@ -1,0 +1,20 @@
+/* styles/About.css */
+/* We're now using Framer Motion animations, so we can remove most of the CSS animations */
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FEFAE0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #606C38;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #283618;
+}
