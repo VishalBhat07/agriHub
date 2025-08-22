@@ -1,0 +1,110 @@
+/* General styles for the navbar container */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    min-height: 80px;
+    position: relative;
+    z-index: 50;
+    transition: all 0.3s ease;
+}
+
+/* Logo styling */
+/* .logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: #fff;
+  padding: 5px 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+} */
+
+/* Styling for the logo container */
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: #fff;
+  padding: 5px 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Styling for the logo text filled with an image */
+.logo-text {
+  font-size: 45px; /* Adjust text size */
+  font-weight: bold;
+  background-image: url("../../assets/plantbg.avif"); /* Replace with your image path */
+  background-size: cover; /* Ensure the image covers the text */
+  background-clip: text; /* Clip the image to the text */
+  -webkit-background-clip: text; /* For WebKit browsers */
+  color: transparent; /* Makes the text background visible */
+  -webkit-text-fill-color: transparent; /* For better cross-browser support */
+}
+
+/* Tabs styling */
+.tabs {
+  display: flex;
+  gap: 20px; /* Space between tabs */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 25px;
+}
+
+.tabs li {
+  cursor: pointer;
+  color: #fff;
+  font-size: 15px;
+  padding: 10px 0;
+  transition: color 0.3s ease-in-out;
+  padding-right: 20px;
+}
+
+.tabs li {
+  border-right: 1px solid #fff; /* Divider between tabs */
+}
+.tabs li:last-child {
+  border-right: none; /* Remove the divider on the last tab */
+}
+
+.tabs li:hover {
+  color: #4caf50;
+}
+
+/* Sign-in button styling */
+.signin button {
+  background-color: #fff;
+  font-size: 16px;
+  color: #000;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: scale 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.signin button:hover {
+  scale: 1.1;
+  color: #fff;
+  background-color: rgb(14 159 110 / var(--tw-bg-opacity, 1));
+}
+
+@media (max-width: 768px) {
+  .tabs {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px; /* Compact spacing */
+  }
+
+  .signin button {
+      align-self: flex-start; /* Align with other items */
+  }
+}
