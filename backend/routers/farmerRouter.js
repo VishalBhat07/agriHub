@@ -8,11 +8,10 @@ const farmerRouter = express.Router();
 // 1. Add farmer (create account)
 farmerRouter.post("/add", async (req, res) => {
   try {
-    const { clerkId, emailId, phoneNumber } = req.body;
+    const { clerkId, emailId } = req.body;
     const farmer = new Farmer({
       clerkId,
       emailId,
-      phoneNumber,
       orders: [],
       crops: [],
     });

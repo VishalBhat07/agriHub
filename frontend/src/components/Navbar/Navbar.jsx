@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { auth } from "../../../firebaseFunctions/firebaseConfig";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import {
+  useUser,
+  SignOutButton,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import logo from "/new_logo2.png";
-import { FaUserCircle } from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Logo component with updated styling
 const Logo = () => (
-  <motion.div 
+  <motion.div
     className="flex items-center space-x-2"
     initial={{ opacity: 0, y: -10 }}
     animate={{ opacity: 1, y: 0 }}
@@ -18,16 +19,16 @@ const Logo = () => (
   >
     <img src={logo} alt="logo" className="h-10 w-auto" />
     <div className="font-bold flex">
-      <motion.span 
-        className="text-[#BC6C25] text-3xl" 
+      <motion.span
+        className="text-[#BC6C25] text-3xl"
         initial={{ x: -20 }}
         animate={{ x: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
       >
         Bharath
       </motion.span>
-      <motion.span 
-        className="text-[#606C38] text-3xl" 
+      <motion.span
+        className="text-[#606C38] text-3xl"
         initial={{ x: 20 }}
         animate={{ x: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
@@ -39,30 +40,10 @@ const Logo = () => (
 );
 
 const Navbar = ({ farmer }) => {
-  const [user, setUser] = useState(null);
+  const { user, isSignedIn } = useUser();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      setUser(null);
-      navigate("/");
-      toast.success("Successfully signed out!");
-    } catch (error) {
-      console.error("Error signing out: ", error);
-      toast.error("Error signing out!");
-    }
-  };
 
   const getUsername = (email) => {
     if (!email) return "User";
@@ -77,6 +58,14 @@ const Navbar = ({ farmer }) => {
     { path: "/contact", label: "Contact us" },
   ];
 
+  useEffect(() => {
+    if (isSignedIn) {
+      console.log("hello");
+      navigate("/auth-redirect");
+    }
+    console.log("hello2");
+  }, [isSignedIn]);
+
   const navVariants = {
     hidden: { opacity: 0, y: -5 },
     visible: (i) => ({
@@ -84,45 +73,45 @@ const Navbar = ({ farmer }) => {
       y: 0,
       transition: {
         delay: i * 0.1,
-        duration: 0.3
-      }
-    })
+        duration: 0.3,
+      },
+    }),
   };
 
   const mobileMenuVariants = {
-    closed: { 
+    closed: {
       opacity: 0,
       height: 0,
       transition: {
         duration: 0.3,
         when: "afterChildren",
         staggerChildren: 0.05,
-        staggerDirection: -1
-      }
+        staggerDirection: -1,
+      },
     },
-    open: { 
+    open: {
       opacity: 1,
       height: "auto",
       transition: {
         duration: 0.3,
         when: "beforeChildren",
         staggerChildren: 0.05,
-        staggerDirection: 1
-      }
-    }
+        staggerDirection: 1,
+      },
+    },
   };
 
   const itemVariants = {
     closed: { opacity: 0, y: -5 },
-    open: { opacity: 1, y: 0 }
+    open: { opacity: 1, y: 0 },
   };
 
   return (
     <nav className="bg-[#FEFAE0] shadow-md">
       <div className="mx-auto px-4 max-w-7xl">
         <div className="flex justify-between items-center h-20">
-          <motion.div 
-            className="cursor-pointer" 
+          <motion.div
+            className="cursor-pointer"
             onClick={() => navigate("/")}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -137,7 +126,13 @@ const Navbar = ({ farmer }) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 {mobileMenuOpen ? (
                   <motion.path
                     initial={{ opacity: 0 }}
@@ -177,7 +172,7 @@ const Navbar = ({ farmer }) => {
                 whileTap={{ scale: 0.95 }}
               >
                 {item.label}
-                <motion.div 
+                <motion.div
                   className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#606C38]"
                   whileHover={{ width: "100%" }}
                   transition={{ duration: 0.3 }}
@@ -185,20 +180,24 @@ const Navbar = ({ farmer }) => {
               </motion.button>
             ))}
 
-            {user ? (
+            {isSignedIn ? (
               <motion.div
                 className="relative"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                <motion.div 
+                <motion.div
                   className="flex items-center space-x-2 cursor-pointer text-[#283618] bg-[#DDA15E] bg-opacity-20 px-4 py-2 rounded-full"
                   whileHover={{ backgroundColor: "rgba(221, 161, 94, 0.3)" }}
                   onClick={() => setDropdownVisible(!dropdownVisible)}
                 >
-                  <FaUserCircle className="text-xl text-[#BC6C25]" />
-                  <span className="font-medium">{getUsername(user.email)}</span>
-                  <motion.span 
+                  <UserButton />
+                  <span className="font-medium">
+                    {user
+                      ? getUsername(user.primaryEmailAddress.emailAddress)
+                      : "User"}
+                  </span>
+                  <motion.span
                     animate={{ rotate: dropdownVisible ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
@@ -208,7 +207,7 @@ const Navbar = ({ farmer }) => {
 
                 <AnimatePresence>
                   {dropdownVisible && (
-                    <motion.div 
+                    <motion.div
                       className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -222,34 +221,33 @@ const Navbar = ({ farmer }) => {
                           navigate(
                             farmer
                               ? `/profile/${farmer.farmerID}`
-                              : `/profile/${user.uid}`
+                              : user
+                              ? `/profile/${user.id}`
+                              : "/"
                           )
                         }
                       >
                         My Profile
                       </motion.button>
-                      <motion.button
-                        className="block w-full text-left px-4 py-2 text-[#283618] hover:bg-[#FEFAE0]"
-                        whileHover={{ x: 5 }}
-                        onClick={handleSignOut}
-                      >
-                        Sign Out
-                      </motion.button>
+                      <motion.div className="block w-full px-4 py-2">
+                        <SignOutButton />
+                      </motion.div>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </motion.div>
             ) : (
-              <motion.button
-                onClick={() => navigate("/login")}
-                className="bg-[#606C38] text-[#FEFAE0] px-5 py-2 rounded-full hover:bg-[#283618] transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                Sign in
-              </motion.button>
+              <SignInButton>
+                <motion.button
+                  className="bg-[#606C38] text-[#FEFAE0] px-5 py-2 rounded-full hover:bg-[#283618] transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  Sign in
+                </motion.button>
+              </SignInButton>
             )}
           </div>
         </div>
@@ -257,7 +255,7 @@ const Navbar = ({ farmer }) => {
         {/* Mobile Navigation */}
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div 
+            <motion.div
               className="md:hidden border-t border-[#DDA15E]/20"
               variants={mobileMenuVariants}
               initial="closed"
@@ -280,11 +278,11 @@ const Navbar = ({ farmer }) => {
                   </motion.button>
                 ))}
 
-                {user ? (
+                {isSignedIn ? (
                   <>
                     <motion.button
                       onClick={() => {
-                        navigate(`/profile/${user.uid}`);
+                        navigate(`/profile/${user.id}`);
                         setMobileMenuOpen(false);
                       }}
                       className="block w-full text-left px-3 py-2 text-[#283618] hover:bg-[#DDA15E]/10 rounded-md"
@@ -295,34 +293,32 @@ const Navbar = ({ farmer }) => {
                     </motion.button>
                     <motion.button
                       onClick={() => {
-                        handleSignOut();
+                        setDropdownVisible(false);
                         setMobileMenuOpen(false);
                       }}
                       className="block w-full text-left px-3 py-2 text-[#283618] hover:bg-[#DDA15E]/10 rounded-md"
                       variants={itemVariants}
                       whileHover={{ x: 5 }}
                     >
-                      Sign Out
+                      <SignOutButton />
                     </motion.button>
                   </>
                 ) : (
-                  <motion.button
-                    onClick={() => {
-                      navigate("/login");
-                      setMobileMenuOpen(false);
-                    }}
-                    className="block w-full text-center px-3 py-2 text-[#FEFAE0] bg-[#606C38] hover:bg-[#283618] rounded-md mt-3"
-                    variants={itemVariants}
-                  >
-                    Sign in
-                  </motion.button>
+                  <SignInButton>
+                    <motion.button
+                      onClick={() => setDropdownVisible(false)}
+                      className="block w-full text-center px-3 py-2 text-[#FEFAE0] bg-[#606C38] hover:bg-[#283618] rounded-md mt-3"
+                      variants={itemVariants}
+                    >
+                      Sign in
+                    </motion.button>
+                  </SignInButton>
                 )}
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-      <ToastContainer />
     </nav>
   );
 };

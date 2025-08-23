@@ -19,8 +19,8 @@ import "./CropHealth.css";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const CropHealthModal = ({ isOpen, onClose }) => {
-  const backendImageURL = backendUrl + "/api/analyze-image";
-  const backendChatURL = backendUrl + "/api/chat";
+  const backendImageURL = backendUrl + "/api/gemini/analyze-image";
+  const backendChatURL = backendUrl + "/api/gemini/chat";
   const [image, setImage] = useState(null);
   const [message, setMessage] = useState("");
   const [chatLog, setChatLog] = useState([]);
@@ -146,31 +146,31 @@ const CropHealthModal = ({ isOpen, onClose }) => {
   ];
 
   const modalVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
-      scale: 0.8
+      scale: 0.8,
     },
     visible: {
       opacity: 1,
       scale: 1,
       transition: {
         duration: 0.3,
-        ease: "easeOut"
-      }
+        ease: "easeOut",
+      },
     },
     exit: {
       opacity: 0,
       scale: 0.8,
       transition: {
-        duration: 0.2
-      }
-    }
+        duration: 0.2,
+      },
+    },
   };
 
   const backdropVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
-    exit: { opacity: 0 }
+    exit: { opacity: 0 },
   };
 
   const chatMessageVariants = {
@@ -218,7 +218,10 @@ const CropHealthModal = ({ isOpen, onClose }) => {
           {/* Header with close button */}
           <div className="flex items-center justify-between p-4 border-b border-[#DDA15E]/20 bg-[#FEFAE0]/30">
             <h2 className="text-xl font-bold text-[#283618] flex items-center">
-              <FontAwesomeIcon icon={faSeedling} className="mr-2 text-[#606C38]" />
+              <FontAwesomeIcon
+                icon={faSeedling}
+                className="mr-2 text-[#606C38]"
+              />
               Plant Health Assistant
             </h2>
             <motion.button
@@ -227,7 +230,10 @@ const CropHealthModal = ({ isOpen, onClose }) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <FontAwesomeIcon icon={faTimes} className="text-[#283618] text-xl" />
+              <FontAwesomeIcon
+                icon={faTimes}
+                className="text-[#283618] text-xl"
+              />
             </motion.button>
           </div>
 

@@ -8,8 +8,8 @@ const buyerRouter = express.Router();
 // 1. Add buyer (create account)
 buyerRouter.post("/add", async (req, res) => {
   try {
-    const { clerkId, emailId, phoneNumber } = req.body;
-    const buyer = new Buyer({ clerkId, emailId, phoneNumber, orders: [] });
+    const { clerkId, emailId } = req.body;
+    const buyer = new Buyer({ clerkId, emailId, orders: [] });
     await buyer.save();
     res.status(201).json({ message: "Buyer added successfully", buyer });
   } catch (error) {

@@ -25,42 +25,47 @@ import CropHealthModal, {
 } from "./pages/CropHealth/CropHealth";
 import PlantAssistantButton from "./components/PlantAssistantButton/PlantAssistantButton";
 
+import {
+  useUser,
+  useSignIn,
+  SignedIn,
+  SignedOut,
+  RedirectToSignIn,
+} from "@clerk/clerk-react";
+import ChooseRole from "./pages/ChooseRole/ChooseRole";
+import AuthRedirect from "./components/Navbar/AuthRedirect";
+
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const { user, isLoaded, isSignedIn } = useUser();
   const [farmer, setFarmer] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
   const { isOpen, closeModal, openModal } = useCropHealthModal();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const fetchedFarmer = await fetchFarmer(user.email);
-          setFarmer(fetchedFarmer);
-          console.log(fetchedFarmer.farmerID);
-          setCurrentUser(user);
-        } catch (error) {
-          console.error("Error fetching farmer:", error);
-          setFarmer(null);
-        }
+    if (isLoaded) {
+      if (isSignedIn && user) {
+        // Fetch farmer data using user.email or user.id as needed
+        fetchFarmer(user.email)
+          .then((fetchedFarmer) => setFarmer(fetchedFarmer))
+          .catch(() => setFarmer(null))
+          .finally(() => setLoading(false));
       } else {
-        setCurrentUser(null);
         setFarmer(null);
+        setLoading(false);
       }
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (currentUser && !loading && window.location.pathname === "/login") {
-      const profilePath = farmer
-        ? `/profile/${farmer.farmerID}`
-        : `/profile/${currentUser.uid}`;
-      navigate(profilePath);
     }
-  }, [currentUser, farmer, loading, navigate]);
+  }, [isLoaded, isSignedIn, user]);
+
+  // useEffect(() => {
+  //   if (currentUser && !loading && window.location.pathname === "/login") {
+  //     const profilePath = farmer
+  //       ? `/profile/${farmer.farmerID}`
+  //       : `/profile/${currentUser.uid}`;
+  //     navigate(profilePath);
+  //   }
+  // }, [currentUser, farmer, loading, navigate]);
 
   if (loading) {
     return (
@@ -84,6 +89,8 @@ function App() {
           <Route path="/test" element={<PricePredictor />} />
           <Route path="/login" element={<Login />} />
           <Route path={"/learn"} element={<LearningResourcesPage />} />
+          <Route path={"/choose-role"} element={<ChooseRole />} />
+          <Route path={"/auth-redirect"} element={<AuthRedirect />} />
           <Route
             path="/profile/:userID"
             element={farmer ? <FarmerProfile /> : <BuyerProfile />}
