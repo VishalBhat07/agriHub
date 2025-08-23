@@ -165,7 +165,7 @@ const Navbar = () => {
               <motion.button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`text-[#283618] hover:text-[#606C38] transition-colors relative py-2 ${isActive ? "border-b-2 border-[#606C38]" : ""}`}
+                className={`cursor-pointer text-[#283618] hover:text-[#606C38] transition-colors relative py-2 ${isActive ? "border-b-2 border-[#606C38]" : ""}`}
                 custom={i}
                 variants={navVariants}
                 initial="hidden"
@@ -210,14 +210,14 @@ const Navbar = () => {
                 <AnimatePresence>
                   {dropdownVisible && (
                     <motion.div
-                      className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+                      className="cursor-pointer absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
                     >
                       <motion.button
-                        className="block w-full text-left px-4 py-2 text-[#283618] hover:bg-[#FEFAE0]"
+                        className="cursor-pointer block w-full text-left px-4 py-2 text-[#283618] hover:bg-[#FEFAE0]"
                         whileHover={{ x: 5 }}
                         onClick={() => navigate("/profile")}
                       >
@@ -233,7 +233,7 @@ const Navbar = () => {
             ) : (
               <SignInButton>
                 <motion.button
-                  className="bg-[#606C38] text-[#FEFAE0] px-5 py-2 rounded-full hover:bg-[#283618] transition-colors"
+                  className="cursor-pointer bg-[#606C38] text-[#FEFAE0] px-5 py-2 rounded-full hover:bg-[#283618] transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0 }}
