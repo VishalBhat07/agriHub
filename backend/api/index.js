@@ -6,6 +6,8 @@ import { farmerRouter } from "../routers/farmerRouter.js";
 import { userRouter } from "../routers/userRouter.js";
 import { equipmentRouter } from "../routers/equipmentRouter.js";
 import { connectDB } from "../utils/connectDB.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -26,8 +28,8 @@ app.use("/api/farmer", farmerRouter);
 app.use("/api/user", userRouter);
 app.use("/api/equipment", equipmentRouter);
 
-app.get("/", () => {
-  res.send("Backend is running");
+app.get("/", (req, res) => {
+  res.send("Backend running on Vercel 🚀");
 });
 
 // Export as Vercel serverless function handler
