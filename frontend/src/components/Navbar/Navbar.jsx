@@ -217,15 +217,7 @@ const Navbar = ({ farmer }) => {
                       <motion.button
                         className="block w-full text-left px-4 py-2 text-[#283618] hover:bg-[#FEFAE0]"
                         whileHover={{ x: 5 }}
-                        onClick={() =>
-                          navigate(
-                            farmer
-                              ? `/profile/${farmer.farmerID}`
-                              : user
-                              ? `/profile/${user.id}`
-                              : "/"
-                          )
-                        }
+                        onClick={() => navigate("/profile")}
                       >
                         My Profile
                       </motion.button>

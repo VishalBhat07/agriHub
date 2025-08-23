@@ -26,11 +26,18 @@ farmerRouter.post("/add", async (req, res) => {
 farmerRouter.post("/:clerkId/crops/add", async (req, res) => {
   try {
     const { clerkId } = req.params;
-    const { price, quantity } = req.body;
+    const { name, variety, price, quantity, location } = req.body;
     const farmer = await Farmer.findOne({ clerkId });
     if (!farmer) return res.status(404).json({ message: "Farmer not found" });
 
-    const crop = new Crop({ price, quantity, farmerClerkId: clerkId });
+    const crop = new Crop({
+      name,
+      variety,
+      price,
+      quantity,
+      location,
+      farmerClerkId: clerkId,
+    });
     await crop.save();
 
     farmer.crops.push(crop._id);
@@ -57,11 +64,11 @@ farmerRouter.get("/:clerkId/crops", async (req, res) => {
 farmerRouter.put("/:clerkId/crops/:cropId", async (req, res) => {
   try {
     const { clerkId, cropId } = req.params;
-    const { price, quantity } = req.body;
+    const { name, variety, price, quantity, location } = req.body;
 
     const crop = await Crop.findOneAndUpdate(
       { _id: cropId, farmerClerkId: clerkId },
-      { price, quantity },
+      { name, variety, price, quantity, location },
       { new: true }
     );
 

@@ -43,6 +43,8 @@ function App() {
   const navigate = useNavigate();
   const { isOpen, closeModal, openModal } = useCropHealthModal();
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     if (isLoaded) {
       if (isSignedIn && user) {
@@ -58,14 +60,33 @@ function App() {
     }
   }, [isLoaded, isSignedIn, user]);
 
-  // useEffect(() => {
-  //   if (currentUser && !loading && window.location.pathname === "/login") {
-  //     const profilePath = farmer
-  //       ? `/profile/${farmer.farmerID}`
-  //       : `/profile/${currentUser.uid}`;
-  //     navigate(profilePath);
-  //   }
-  // }, [currentUser, farmer, loading, navigate]);
+  useEffect(() => {
+    const checkUserRole = async () => {
+      if (isSignedIn && user) {
+        try {
+          const response = await fetch(backendUrl + `/api/user/${user.id}`);
+          if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            if (data.role === "farmer") {
+              setFarmer(true);
+            } else {
+              setFarmer(false);
+            }
+          } else {
+            setFarmer(false);
+          }
+        } catch (error) {
+          console.error("Failed to fetch user role", error);
+          setFarmer(false);
+        }
+      } else {
+        setFarmer(false);
+      }
+    };
+
+    checkUserRole();
+  }, [isSignedIn, user]);
 
   if (loading) {
     return (
@@ -92,17 +113,13 @@ function App() {
           <Route path={"/choose-role"} element={<ChooseRole />} />
           <Route path={"/auth-redirect"} element={<AuthRedirect />} />
           <Route
-            path="/profile/:userID"
+            path="/profile"
             element={farmer ? <FarmerProfile /> : <BuyerProfile />}
           />
 
           <Route
             path={"/marketplace"}
-            element={
-              (farmer && <FarmerMarket farmerID={farmer.farmerID} />) || (
-                <BuyerMarket />
-              )
-            }
+            element={(farmer && <FarmerMarket />) || <BuyerMarket />}
           />
           <Route path="farmer/:farmerID" element={<PublicFarmerProfile />} />
         </Routes>
