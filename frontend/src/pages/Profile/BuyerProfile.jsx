@@ -29,6 +29,7 @@ export default function BuyerProfile() {
       try {
         setError(null);
         const res = await fetch(`${backendUrl}/api/buyer/${userID}/orders`);
+        console.log(res);
         if (!res.ok) {
           if (res.status === 404) {
             setOrders([]); // no orders yet
@@ -73,12 +74,10 @@ export default function BuyerProfile() {
         {order.farmerId?.name || "Farmer"}
       </td>
       <td className="px-6 py-4 text-[#283618]">
-        {order.crops
-          ?.map((c) => `${c.cropId?.name || c.name} (${c.quantity}kg)`)
-          .join(", ") || "No crops"}
+        {order.crop.name} - {order.crop.variety}
       </td>
       <td className="px-6 py-4 font-semibold text-[#BC6C25]">
-        ₹{order.totalPrice?.toLocaleString() || 0}
+        ₹{order.crop.price || 0}
       </td>
       <td className="px-6 py-4">
         <span className="px-2 py-1 text-xs font-medium rounded-full bg-[#606C38]/20 text-[#283618]">
@@ -86,8 +85,8 @@ export default function BuyerProfile() {
         </span>
       </td>
       <td className="px-6 py-4">
-        {order.createdAt
-          ? new Date(order.createdAt).toLocaleDateString("en-IN")
+        {order.orderDate
+          ? new Date(order.orderDate).toLocaleDateString("en-IN")
           : "N/A"}
       </td>
     </motion.tr>

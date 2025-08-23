@@ -15,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import placeOrder from "./placeOrder";
+import { useUser } from "@clerk/clerk-react";
 
 const MotionCard = motion.div;
 
@@ -30,6 +31,7 @@ export default function ModernMarketplace() {
   const UNSPLASH_API_KEY = import.meta.env.VITE_UNSPLASH_API_KEY;
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchCrops = async () => {
@@ -183,7 +185,7 @@ export default function ModernMarketplace() {
     );
   };
 
-  const CropModal = ({ crop }) => (
+  const CropModal = ({ crop, userId }) => (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
@@ -242,7 +244,7 @@ export default function ModernMarketplace() {
                   </div>
                   <div className="flex items-center space-x-3">
                     <span className="text-2xl font-bold text-[#BC6C25]">
-                      ₹{crop.price}
+                      ₹{crop.price}/kg
                     </span>
                   </div>
                 </motion.div>
@@ -250,13 +252,20 @@ export default function ModernMarketplace() {
                 <motion.button
                   whileHover={{ scale: 1.02, backgroundColor: "#283618" }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => placeOrder()}
+                  onClick={() =>
+                    placeOrder(
+                      userId,
+                      crop.farmerClerkId,
+                      crop,
+                      setSelectedCrop
+                    )
+                  }
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                   className="w-full py-3 bg-[#606C38] text-[#FEFAE0] rounded-lg font-medium text-lg shadow-md"
                 >
-                  Add to Cart
+                  Place Order
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02, backgroundColor: "#283618" }}
@@ -443,7 +452,7 @@ export default function ModernMarketplace() {
           </motion.div>
         )}
 
-        {selectedCrop && <CropModal crop={selectedCrop} />}
+        {selectedCrop && <CropModal crop={selectedCrop} userId={user.id} />}
       </div>
     </motion.div>
   );

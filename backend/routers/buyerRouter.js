@@ -21,7 +21,7 @@ buyerRouter.post("/add", async (req, res) => {
 buyerRouter.post("/:clerkId/orders/place", async (req, res) => {
   try {
     const { clerkId } = req.params;
-    const { farmerClerkId, crops } = req.body;
+    const { farmerClerkId, crop } = req.body;
     // crops: [{ cropId, quantity }, ...]
 
     const buyer = await Buyer.findOne({ clerkId });
@@ -31,7 +31,7 @@ buyerRouter.post("/:clerkId/orders/place", async (req, res) => {
     const order = new Order({
       buyerClerkId: clerkId,
       farmerClerkId,
-      crops,
+      crop,
       status: "pending",
       orderDate: new Date(),
     });
@@ -53,10 +53,8 @@ buyerRouter.post("/:clerkId/orders/place", async (req, res) => {
 buyerRouter.get("/:clerkId/orders", async (req, res) => {
   try {
     const { clerkId } = req.params;
-
-    const orders = await Order.find({ buyerClerkId: clerkId }).populate(
-      "crops.cropId"
-    );
+    console.log("clerk", clerkId);
+    const orders = await Order.find({ buyerClerkId: clerkId });
     res.json(orders);
   } catch (error) {
     res.status(400).json({ error: error.message });
