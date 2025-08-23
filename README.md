@@ -6,12 +6,11 @@ AgriHub is a **full-stack web application** designed to connect farmers directly
 It eliminates middlemen, enables transparent transactions, provides predictive analytics, and delivers government resources for farmers.
 
 This project was developed as part of **CodeFury 8.0 Hackathon**.
-
 ---
 
 ## 🚀 Tech Stack
 
-- **Frontend:** React.js, TailwindCSS / Shadcn UI, Recharts/Chart.js, Google Maps API
+- **Frontend:** React.js, TailwindCSS , Recharts/Chart.js, Google Maps API
 - **Backend:** Node.js (Express.js)
 - **Database:** MongoDB (MongoDB Atlas)
 - **Authentication:** Clerk
