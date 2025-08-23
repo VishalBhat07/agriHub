@@ -5,7 +5,7 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "/new_logo2.png";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -39,11 +39,12 @@ const Logo = () => (
   </motion.div>
 );
 
-const Navbar = ({ farmer }) => {
+const Navbar = () => {
   const { user, isSignedIn } = useUser();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const getUsername = (email) => {
     if (!email) return "User";
@@ -158,11 +159,13 @@ const Navbar = ({ farmer }) => {
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
-            {navItems.map((item, i) => (
+            {navItems.map((item, i) =>{ 
+              const isActive = item.path === location.pathname;
+              return (
               <motion.button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className="text-[#283618] hover:text-[#606C38] transition-colors relative py-2"
+                className={`text-[#283618] hover:text-[#606C38] transition-colors relative py-2 ${isActive ? "border-b-2 border-[#606C38]" : ""}`}
                 custom={i}
                 variants={navVariants}
                 initial="hidden"
@@ -177,7 +180,7 @@ const Navbar = ({ farmer }) => {
                   transition={{ duration: 0.3 }}
                 />
               </motion.button>
-            ))}
+            )})}
 
             {isSignedIn ? (
               <motion.div
