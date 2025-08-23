@@ -54,9 +54,9 @@ const Navbar = ({ farmer }) => {
     { path: "/marketplace", label: "Market Place" },
     { path: "/learn", label: "Learning Resources" },
     { path: "/schemes", label: "Government Schemes" },
-    { path: "/about", label: "About us" },
-    { path: "/contact", label: "Contact us" },
     { path: "/equipments", label: "Equipments" },
+    { path: "/analytics", label: "Analytics" },
+    { path: "/about", label: "About us" },
   ];
 
   useEffect(() => {
