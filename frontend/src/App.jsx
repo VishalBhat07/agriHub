@@ -34,6 +34,7 @@ import {
 } from "@clerk/clerk-react";
 import ChooseRole from "./pages/ChooseRole/ChooseRole";
 import AuthRedirect from "./components/Navbar/AuthRedirect";
+import CertificationDashboard from "./pages/Equipment/Equipment";
 
 function App() {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -122,6 +123,7 @@ function App() {
             element={(farmer && <FarmerMarket />) || <BuyerMarket />}
           />
           <Route path="farmer/:farmerID" element={<PublicFarmerProfile />} />
+          <Route path="/equipments" element={<CertificationDashboard />} />
         </Routes>
       </div>
       <div>

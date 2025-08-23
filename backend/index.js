@@ -6,6 +6,7 @@ import { buyerRouter } from "./routers/buyerRouter.js";
 import { farmerRouter } from "./routers/farmerRouter.js";
 import { connectDB } from "./utils/connectDB.js";
 import { userRouter } from "./routers/userRouter.js";
+import { equipmentRouter } from "./routers/equipmentRouter.js";
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,7 @@ app.use("/api/gemini", geminiRouter);
 app.use("/api/buyer", buyerRouter);
 app.use("/api/farmer", farmerRouter);
 app.use("/api/user", userRouter);
+app.use("/api/equipment", equipmentRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -50,6 +50,7 @@ export default function ModernMarketplace() {
   }, []);
 
   const fetchCropImage = async (cropID, cropName) => {
+    console.log(cropID, cropName, UNSPLASH_API_KEY);
     if (cropImages[cropID]) return; // Skip if image already fetched
     try {
       const response = await axios.get(
@@ -62,7 +63,10 @@ export default function ModernMarketplace() {
           },
         }
       );
+
+      console.log(response);
       if (response.data.results.length > 0) {
+        console.log(response.data.results[0].urls.small);
         setCropImages((prevImages) => ({
           ...prevImages,
           [cropID]: response.data.results[0].urls.small,
@@ -137,7 +141,7 @@ export default function ModernMarketplace() {
             icon={faSeedling}
             className="absolute inset-0 m-auto text-white/20 w-24 h-24"
           />
-          {cropImages[crop.cropID] ? (
+          {cropImages[crop._id] ? (
             <img
               src={cropImages[crop._id]}
               alt={crop.name}

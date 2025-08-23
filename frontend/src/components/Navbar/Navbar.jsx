@@ -56,14 +56,13 @@ const Navbar = ({ farmer }) => {
     { path: "/schemes", label: "Government Schemes" },
     { path: "/about", label: "About us" },
     { path: "/contact", label: "Contact us" },
+    { path: "/equipments", label: "Equipments" },
   ];
 
   useEffect(() => {
     if (isSignedIn) {
-      console.log("hello");
       navigate("/auth-redirect");
     }
-    console.log("hello2");
   }, [isSignedIn]);
 
   const navVariants = {

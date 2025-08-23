@@ -13,6 +13,23 @@ import { motion, AnimatePresence } from "framer-motion";
 import Modal from "../MarketPlace/Modal";
 import { useUser, useClerk } from "@clerk/clerk-react";
 
+function generatePrices(basePrice) {
+  if (!basePrice || isNaN(basePrice)) {
+    basePrice = 1000; // fallback price
+  }
+
+  // Random factors between 5% and 15%
+  const minFactor = 0.05 + Math.random() * 0.1;
+  const maxFactor = 0.05 + Math.random() * 0.1;
+
+  const minPrice = Math.round(basePrice * (1 - minFactor));
+  const maxPrice = Math.round(basePrice * (1 + maxFactor));
+  // Avg price weighted a bit closer to the actual price
+  const avgPrice = Math.round((minPrice + maxPrice + basePrice * 2) / 4);
+
+  return { minPrice, maxPrice, avgPrice };
+}
+
 export default function FarmerMarket() {
   const { user } = useUser();
   const { signOut } = useClerk();
@@ -53,12 +70,15 @@ export default function FarmerMarket() {
         const cropsData = await cropsRes.json();
 
         // Extend crops with dummy ML values
-        const cropsWithPrices = cropsData.map((c) => ({
-          ...c,
-          minPrice: 2000,
-          maxPrice: 3000,
-          avgPrice: 2500,
-        }));
+        const cropsWithPrices = cropsData.map((c) => {
+          const { minPrice, maxPrice, avgPrice } = generatePrices(c.price);
+          return {
+            ...c,
+            minPrice,
+            maxPrice,
+            avgPrice,
+          };
+        });
 
         setCrops(cropsWithPrices);
       } catch (error) {
@@ -108,12 +128,15 @@ export default function FarmerMarket() {
       const cropsRes = await fetch(backendUrl + `/api/farmer/${userID}/crops`);
       const updatedCrops = await cropsRes.json();
 
-      const cropsWithPrices = updatedCrops.map((c) => ({
-        ...c,
-        minPrice: 2000,
-        maxPrice: 3000,
-        avgPrice: 2500,
-      }));
+      const cropsWithPrices = updatedCrops.map((c) => {
+        const { minPrice, maxPrice, avgPrice } = generatePrices(c.price);
+        return {
+          ...c,
+          minPrice,
+          maxPrice,
+          avgPrice,
+        };
+      });
 
       setCrops(cropsWithPrices);
       handleModalClose();
