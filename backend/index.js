@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { geminiRouter } from "../routers/geminiRouter.js";
+import { geminiRouter } from "./routers/geminiRouter.js";
 import { buyerRouter } from "../routers/buyerRouter.js";
 import { farmerRouter } from "../routers/farmerRouter.js";
 import { userRouter } from "../routers/userRouter.js";
