@@ -141,4 +141,14 @@ farmerRouter.put("/:clerkId/orders/:orderId/status", async (req, res) => {
   }
 });
 
+// 8. Fetch all crops from all farmers
+farmerRouter.get("/crops/all", async (req, res) => {
+  try {
+    const crops = await Crop.find({});
+    res.json(crops);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 export { farmerRouter };
