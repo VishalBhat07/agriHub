@@ -60,7 +60,7 @@ function LeftSection() {
         className="mb-8"
       >
         <h1 className="text-4xl font-bold text-[#283618] mb-2">
-          Contact <span className="text-[#606C38]">BharathHarvest</span>
+          Contact <span className="text-[#606C38]">AgriHub</span>
         </h1>
         <motion.div
           className="h-1 w-20 bg-[#DDA15E] rounded-full"
@@ -161,7 +161,7 @@ function RightSection() {
     {
       icon: faEnvelope,
       title: "Email",
-      text: "admin@bharathharvest.com",
+      text: "admin@agrihub.com",
       action: "Email Us",
     },
     {

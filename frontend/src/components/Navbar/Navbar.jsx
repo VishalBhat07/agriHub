@@ -25,7 +25,7 @@ const Logo = () => (
         animate={{ x: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
       >
-        Bharath
+        Agri
       </motion.span>
       <motion.span
         className="text-[#606C38] text-3xl"
@@ -33,7 +33,7 @@ const Logo = () => (
         animate={{ x: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
       >
-        Harvest
+        Hub
       </motion.span>
     </div>
   </motion.div>

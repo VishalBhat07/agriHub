@@ -109,7 +109,7 @@ const LeftSection = () => {
         className="mb-6"
       >
         <h1 className="text-4xl font-bold text-[#283618] mb-2">
-          About <span className="text-[#606C38]">BharathHarvest</span>
+          About <span className="text-[#606C38]">ArgiHub</span>
         </h1>
         <motion.div
           className="h-1 w-20 bg-[#DDA15E] rounded-full"
@@ -132,7 +132,7 @@ const LeftSection = () => {
         </h2>
         <div className="text-lg text-[#283618]/80 leading-relaxed space-y-4">
           <p>
-            At BharathHarvest, we believe in transforming agriculture through
+            At AgriHub, we believe in transforming agriculture through
             technology and community support. Our mission is to empower farmers
             by providing innovative solutions that bridge information gaps and
             enhance agricultural productivity.

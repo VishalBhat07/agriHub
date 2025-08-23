@@ -65,54 +65,54 @@ export default function Login() {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         type: "spring",
-        stiffness: 50
-      }
-    }
+        stiffness: 50,
+      },
+    },
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row w-full">
       {/* Left Side */}
-      <motion.div 
+      <motion.div
         className="w-full md:w-1/2 flex flex-col justify-center p-8 bg-[#FEFAE0]"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
           className="mb-8"
         >
           <h1 className="text-4xl font-bold text-[#283618] mb-5">
-            Welcome to <span className="text-[#606C38]">BharathHarvest</span>
+            Welcome to <span className="text-[#606C38]">AgriHub</span>
           </h1>
           <p className="text-lg text-[#283618]/80 leading-relaxed">
             Empowering farmers with tools and resources to make farming smarter
             and easier. Log in to explore your dashboard and stay connected.
           </p>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="flex items-center gap-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          <motion.div 
+          <motion.div
             className="w-16 h-16 bg-[#DDA15E]/20 rounded-full flex items-center justify-center"
             whileHover={{ rotate: 360 }}
             transition={{ duration: 1 }}
@@ -135,13 +135,13 @@ export default function Login() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        <motion.div 
+        <motion.div
           className="w-full max-w-md"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.h2 
+          <motion.h2
             className="text-3xl font-bold mb-8"
             variants={itemVariants}
           >
@@ -197,7 +197,13 @@ export default function Login() {
                         onChange={() => setCategory("farmer")}
                         className="opacity-0 absolute w-0 h-0"
                       />
-                      <div className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-all duration-300 ${category === "farmer" ? "border-[#DDA15E]" : "border-[#FEFAE0]/50 group-hover:border-[#FEFAE0]"}`}>
+                      <div
+                        className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-all duration-300 ${
+                          category === "farmer"
+                            ? "border-[#DDA15E]"
+                            : "border-[#FEFAE0]/50 group-hover:border-[#FEFAE0]"
+                        }`}
+                      >
                         {category === "farmer" && (
                           <motion.div
                             initial={{ scale: 0 }}
@@ -219,7 +225,13 @@ export default function Login() {
                         onChange={() => setCategory("buyer")}
                         className="opacity-0 absolute w-0 h-0"
                       />
-                      <div className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-all duration-300 ${category === "buyer" ? "border-[#DDA15E]" : "border-[#FEFAE0]/50 group-hover:border-[#FEFAE0]"}`}>
+                      <div
+                        className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-all duration-300 ${
+                          category === "buyer"
+                            ? "border-[#DDA15E]"
+                            : "border-[#FEFAE0]/50 group-hover:border-[#FEFAE0]"
+                        }`}
+                      >
                         {category === "buyer" && (
                           <motion.div
                             initial={{ scale: 0 }}
@@ -237,7 +249,7 @@ export default function Login() {
 
             {/* Remember Me & Forgot Password (Only shown for login) */}
             {!isSignUp && (
-              <motion.div 
+              <motion.div
                 variants={itemVariants}
                 className="flex justify-between items-center text-sm"
               >
@@ -247,7 +259,10 @@ export default function Login() {
                   </div>
                   <span>Remember me</span>
                 </label>
-                <a href="#" className="text-[#DDA15E] hover:text-[#BC6C25] transition-colors">
+                <a
+                  href="#"
+                  className="text-[#DDA15E] hover:text-[#BC6C25] transition-colors"
+                >
                   Forgot Password?
                 </a>
               </motion.div>
@@ -266,7 +281,7 @@ export default function Login() {
           </form>
 
           {/* Toggle Sign Up / Log In */}
-          <motion.p 
+          <motion.p
             className="text-center mt-8 text-[#FEFAE0]/80"
             variants={itemVariants}
           >

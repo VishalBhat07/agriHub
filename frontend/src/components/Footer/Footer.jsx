@@ -64,12 +64,10 @@ const Footer = () => {
               >
                 <img src="/new_logo2.png" alt="" />
               </motion.div>
-              <h2 className="text-2xl font-bold text-[#283618]">
-                Bharath Harvest
-              </h2>
+              <h2 className="text-2xl font-bold text-[#283618]">AgriHub</h2>
             </div>
             <p className="text-[#283618]/80 leading-relaxed">
-              Bharath Harvest is dedicated to connecting farmers, learners, and
+              AgriHub is dedicated to connecting farmers, learners, and
               stakeholders in agriculture. Explore resources, marketplaces, and
               schemes to empower your journey.
             </p>
@@ -122,28 +120,24 @@ const Footer = () => {
             <ul className="space-y-3">
               <motion.li whileHover={{ x: 5 }}>
                 <a
-                  href="mailto:tallamsrisai@bharathharvest.com"
+                  href="mailto:vishalkbhat@agrihub.com"
                   className="flex items-center gap-3"
                 >
                   <div className="bg-[#606C38] w-8 h-8 rounded-full flex items-center justify-center text-[#FEFAE0] text-sm">
                     <FontAwesomeIcon icon={faEnvelope} />
                   </div>
-                  <span className="text-sm">
-                    tallamsrisai@bharathharvest.com
-                  </span>
+                  <span className="text-sm">vishalkbhat@agrihub.com</span>
                 </a>
               </motion.li>
               <motion.li whileHover={{ x: 5 }}>
                 <a
-                  href="mailto:vssreenivaas@bharathharvest.com"
+                  href="mailto:vssreenivaas@agrihub.com"
                   className="flex items-center gap-3"
                 >
                   <div className="bg-[#606C38] w-8 h-8 rounded-full flex items-center justify-center text-[#FEFAE0] text-sm">
                     <FontAwesomeIcon icon={faEnvelope} />
                   </div>
-                  <span className="text-sm">
-                    vssreenivaas@bharathharvest.com
-                  </span>
+                  <span className="text-sm">vssreenivaas@agrihub.com</span>
                 </a>
               </motion.li>
               <motion.li whileHover={{ x: 5 }}>
@@ -166,7 +160,7 @@ const Footer = () => {
         viewport={{ once: true }}
         transition={{ delay: 0.5 }}
       >
-        &copy; {new Date().getFullYear()} Bharath Harvest | All Rights Reserved
+        &copy; {new Date().getFullYear()} AgriHub | All Rights Reserved
       </motion.div>
     </footer>
   );
