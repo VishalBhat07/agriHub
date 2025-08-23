@@ -24,7 +24,7 @@ import CropHealthModal, {
   useCropHealthModal,
 } from "./pages/CropHealth/CropHealth";
 import PlantAssistantButton from "./components/PlantAssistantButton/PlantAssistantButton";
-
+import Analytics from "./pages/Analytics/Analytics";
 import {
   useUser,
   useSignIn,
