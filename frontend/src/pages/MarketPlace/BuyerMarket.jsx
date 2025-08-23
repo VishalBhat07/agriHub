@@ -14,8 +14,7 @@ import {
   faSort,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getAllFarmersCrops } from "../../../firebaseFunctions/cropFarmer";
-import { searchFarmerByCrop } from "../../../firebaseFunctions/cropFarmer";
+import placeOrder from "./placeOrder";
 
 const MotionCard = motion.div;
 
@@ -89,19 +88,6 @@ export default function ModernMarketplace() {
   const getMapUrl = (location) => {
     const encodedLocation = encodeURIComponent(location);
     return `https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${encodedLocation},India`;
-  };
-
-  const handlePurchaseClick = async (crop) => {
-    try {
-      const farmer = await searchFarmerByCrop(crop);
-      if (farmer) {
-        navigate(`/farmer/${farmer.farmerID}`);
-      } else {
-        console.error("No farmer found for this crop");
-      }
-    } catch (error) {
-      console.error("Error during purchase:", error);
-    }
   };
 
   const containerVariants = {
@@ -264,13 +250,13 @@ export default function ModernMarketplace() {
                 <motion.button
                   whileHover={{ scale: 1.02, backgroundColor: "#283618" }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => alert("order placed")}
+                  onClick={() => placeOrder()}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                   className="w-full py-3 bg-[#606C38] text-[#FEFAE0] rounded-lg font-medium text-lg shadow-md"
                 >
-                  Place Order
+                  Add to Cart
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02, backgroundColor: "#283618" }}
