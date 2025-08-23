@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { cropSchema } from "../schema/cropSchema";
+import { cropSchema } from "../schema/cropSchema.js";
 
 const orderSchema = new mongoose.Schema({
   buyerClerkId: { type: String, required: true, ref: "Buyer" },
