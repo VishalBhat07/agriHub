@@ -110,9 +110,7 @@ farmerRouter.delete("/:clerkId/crops/:cropId", async (req, res) => {
 farmerRouter.get("/:clerkId/orders", async (req, res) => {
   try {
     const { clerkId } = req.params;
-    const orders = await Order.find({ farmerClerkId: clerkId }).populate(
-      "crops.cropId"
-    );
+    const orders = await Order.find({ farmerClerkId: clerkId });
     res.json(orders);
   } catch (error) {
     res.status(400).json({ error: error.message });
