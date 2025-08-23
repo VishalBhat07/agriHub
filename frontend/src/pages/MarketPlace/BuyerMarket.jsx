@@ -11,7 +11,7 @@ import {
   faLeaf,
   faShoppingBasket,
   faFilter,
-  faSort
+  faSort,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllFarmersCrops } from "../../../firebaseFunctions/cropFarmer";
@@ -30,12 +30,14 @@ export default function ModernMarketplace() {
   const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const UNSPLASH_API_KEY = import.meta.env.VITE_UNSPLASH_API_KEY;
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     const fetchCrops = async () => {
       setIsLoading(true);
       try {
-        const farmersWithCrops = await getAllFarmersCrops();
-        const allCrops = farmersWithCrops.flatMap(({ crops }) => crops);
+        const response = await axios.get(backendUrl + `/api/farmer/crops/all`);
+        const allCrops = response.data;
         setCrops(allCrops);
       } catch (error) {
         console.error("Error fetching crops", error);
@@ -49,7 +51,6 @@ export default function ModernMarketplace() {
   const fetchCropImage = async (cropID, cropName) => {
     if (cropImages[cropID]) return; // Skip if image already fetched
     try {
-      console.log(cropName);
       const response = await axios.get(
         `https://api.unsplash.com/search/photos`,
         {
@@ -79,9 +80,9 @@ export default function ModernMarketplace() {
   const filteredCrops = crops.filter((crop) => {
     const search = searchTerm.toLowerCase();
     return (
-      crop.cropName.toLowerCase().includes(search) ||
-      crop.cropVariety.toLowerCase().includes(search) ||
-      crop.cropLocation.toLowerCase().includes(search)
+      crop.name.toLowerCase().includes(search) ||
+      crop.variety.toLowerCase().includes(search) ||
+      crop.location.toLowerCase().includes(search)
     );
   });
 
@@ -119,14 +120,14 @@ export default function ModernMarketplace() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 300, damping: 24 }
-    }
+      transition: { type: "spring", stiffness: 300, damping: 24 },
+    },
   };
 
   const CropCard = ({ crop, index }) => {
     useEffect(() => {
-      fetchCropImage(crop.cropID, crop.cropName);
-    }, [crop.cropID, crop.cropName]);
+      fetchCropImage(crop._id, crop.name);
+    }, [crop._id, crop.name]);
 
     return (
       <MotionCard
@@ -150,18 +151,21 @@ export default function ModernMarketplace() {
           />
           {cropImages[crop.cropID] ? (
             <img
-              src={cropImages[crop.cropID]}
-              alt={crop.cropName}
+              src={cropImages[crop._id]}
+              alt={crop.name}
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-lg">
-              <FontAwesomeIcon icon={faSeedling} className="text-4xl opacity-70" />
+              <FontAwesomeIcon
+                icon={faSeedling}
+                className="text-4xl opacity-70"
+              />
             </div>
           )}
           <div className="absolute bottom-0 left-0 right-0 bg-[#283618]/70 backdrop-blur-sm p-4">
-            <h3 className="text-xl font-bold text-[#FEFAE0]">{crop.cropName}</h3>
-            <p className="text-[#FEFAE0]/90">{crop.cropVariety}</p>
+            <h3 className="text-xl font-bold text-[#FEFAE0]">{crop.name}</h3>
+            <p className="text-[#FEFAE0]/90">{crop.variety}</p>
           </div>
         </motion.div>
 
@@ -169,18 +173,16 @@ export default function ModernMarketplace() {
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2 text-[#606C38]">
               <FontAwesomeIcon icon={faWeightScale} />
-              <span>{crop.cropWeight}kg</span>
+              <span>{crop.quantity}kg</span>
             </div>
             <div className="flex items-center space-x-2 text-[#606C38]">
               <FontAwesomeIcon icon={faLocationDot} />
-              <span>{crop.cropLocation}</span>
+              <span>{crop.location}</span>
             </div>
           </div>
 
           <div className="flex justify-between items-center">
-            <p className="text-2xl font-bold text-[#BC6C25]">
-              ₹{crop.cropPrice}
-            </p>
+            <p className="text-2xl font-bold text-[#BC6C25]">₹{crop.price}</p>
             <motion.button
               whileHover={{ scale: 1.05, backgroundColor: "#283618" }}
               whileTap={{ scale: 0.95 }}
@@ -233,12 +235,12 @@ export default function ModernMarketplace() {
                   transition={{ delay: 0.1 }}
                 >
                   <h2 className="text-3xl font-bold text-[#283618]">
-                    {crop.cropName}
+                    {crop.name}
                   </h2>
-                  <p className="text-lg text-[#606C38]">{crop.cropVariety}</p>
+                  <p className="text-lg text-[#606C38]">{crop.variety}</p>
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                   className="space-y-4"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -246,15 +248,15 @@ export default function ModernMarketplace() {
                 >
                   <div className="flex items-center space-x-3 text-[#606C38]">
                     <FontAwesomeIcon icon={faWeightScale} className="w-5 h-5" />
-                    <span className="text-lg">{crop.cropWeight} kg</span>
+                    <span className="text-lg">{crop.quantity} kg</span>
                   </div>
                   <div className="flex items-center space-x-3 text-[#606C38]">
                     <FontAwesomeIcon icon={faLocationDot} className="w-5 h-5" />
-                    <span className="text-lg">{crop.cropLocation}</span>
+                    <span className="text-lg">{crop.location}</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <span className="text-2xl font-bold text-[#BC6C25]">
-                      ₹{crop.cropPrice}
+                      ₹{crop.price}
                     </span>
                   </div>
                 </motion.div>
@@ -272,15 +274,15 @@ export default function ModernMarketplace() {
                 </motion.button>
               </div>
 
-              <motion.div 
+              <motion.div
                 className="h-full min-h-[400px] rounded-lg overflow-hidden shadow-lg"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
               >
                 <iframe
-                  title={`Map showing location of ${crop.cropName}`}
-                  src={getMapUrl(crop.cropLocation)}
+                  title={`Map showing location of ${crop.name}`}
+                  src={getMapUrl(crop.location)}
                   className="w-full h-full border-0 rounded-lg"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -294,7 +296,7 @@ export default function ModernMarketplace() {
   );
 
   return (
-    <motion.div 
+    <motion.div
       className="min-h-screen bg-[#FEFAE0]/30"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -308,9 +310,9 @@ export default function ModernMarketplace() {
           animate="visible"
         >
           <motion.div variants={itemVariants} className="inline-block mb-4">
-            <FontAwesomeIcon 
-              icon={faShoppingBasket} 
-              className="text-5xl text-[#606C38]" 
+            <FontAwesomeIcon
+              icon={faShoppingBasket}
+              className="text-5xl text-[#606C38]"
             />
           </motion.div>
           <motion.h1
@@ -319,12 +321,16 @@ export default function ModernMarketplace() {
           >
             Crop Marketplace
           </motion.h1>
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="h-1 w-32 bg-[#DDA15E] mx-auto rounded-full mb-6"
           />
-          <motion.p variants={itemVariants} className="text-[#606C38] text-lg max-w-2xl mx-auto">
-            Connect directly with farmers and purchase fresh, high-quality crops at competitive prices
+          <motion.p
+            variants={itemVariants}
+            className="text-[#606C38] text-lg max-w-2xl mx-auto"
+          >
+            Connect directly with farmers and purchase fresh, high-quality crops
+            at competitive prices
           </motion.p>
         </motion.div>
 
@@ -346,10 +352,13 @@ export default function ModernMarketplace() {
               placeholder="Search by name, variety, or location..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              whileFocus={{ scale: 1.01, boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)" }}
+              whileFocus={{
+                scale: 1.01,
+                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              }}
             />
           </div>
-          
+
           <motion.div
             variants={itemVariants}
             className="flex justify-end gap-3 mt-4"
@@ -377,33 +386,37 @@ export default function ModernMarketplace() {
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
             <motion.div
-              animate={{ 
+              animate={{
                 rotate: 360,
-                scale: [1, 1.1, 1]
+                scale: [1, 1.1, 1],
               }}
-              transition={{ 
-                rotate: { 
+              transition={{
+                rotate: {
                   duration: 1.5,
                   repeat: Infinity,
-                  ease: "linear"
+                  ease: "linear",
                 },
                 scale: {
                   duration: 1,
                   repeat: Infinity,
-                  repeatType: "reverse"
-                }
+                  repeatType: "reverse",
+                },
               }}
             >
-              <FontAwesomeIcon 
-                icon={faSeedling} 
-                className="text-5xl text-[#606C38]" 
+              <FontAwesomeIcon
+                icon={faSeedling}
+                className="text-5xl text-[#606C38]"
               />
             </motion.div>
           </div>
         ) : (
           <motion.div
             layout
-            className={`grid ${isGridView ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-8`}
+            className={`grid ${
+              isGridView
+                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                : "grid-cols-1"
+            } gap-8`}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
