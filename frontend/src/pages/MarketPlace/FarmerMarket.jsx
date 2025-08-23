@@ -29,6 +29,7 @@ export default function FarmerMarket() {
     cropPrice: "",
     cropWeight: "",
     cropLocation: "",
+    farmerClerkId: "",
   });
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;

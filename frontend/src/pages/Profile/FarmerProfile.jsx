@@ -90,6 +90,7 @@ export default function FarmerProfile() {
           price: parseFloat(cropData.cropPrice),
           quantity: parseFloat(cropData.cropWeight),
           location: cropData.cropLocation,
+          farmerClerkId: userID,
         }),
       });
 

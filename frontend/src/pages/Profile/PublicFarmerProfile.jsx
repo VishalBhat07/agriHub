@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Farmer } from "../../../firebaseFunctions/cropFarmer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLeaf, faLocationDot, faWeightScale, faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLeaf,
+  faLocationDot,
+  faWeightScale,
+  faDollarSign,
+} from "@fortawesome/free-solid-svg-icons";
+import { useUser } from "@clerk/clerk-react";
 
 const PublicFarmerProfile = () => {
   const { farmerID } = useParams();
@@ -10,14 +16,25 @@ const PublicFarmerProfile = () => {
   const [crops, setCrops] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     const fetchFarmerData = async () => {
       try {
-        const fetchedFarmer = await Farmer.getFarmer(farmerID);
-        setFarmer(fetchedFarmer);
+        const farmerRes = await fetch(backendUrl + `/api/user/${farmerID}`);
+        if (!farmerRes.ok) throw new Error("Failed to fetch farmer");
+        const farmerData = await farmerRes.json();
+        console.log(farmerData.profile);
+        setFarmer(farmerData.profile);
 
-        const fetchedCrops = await fetchedFarmer.getCrops();
-        setCrops(fetchedCrops);
+        // const fetchedFarmer = await Farmer.getFarmer(farmerID);
+        // setFarmer(fetchedFarmer);
+
+        const fetchedCrops = await fetch(
+          backendUrl + `/api/farmer/${farmerID}/crops`
+        );
+        const cropData = await fetchedCrops.json();
+        setCrops(cropData);
       } catch (error) {
         console.error("Error fetching farmer data:", error);
       } finally {
@@ -31,10 +48,7 @@ const PublicFarmerProfile = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FEFAE0]/30">
-        <FontAwesomeIcon 
-          icon={faLeaf} 
-          className="text-5xl text-[#606C38]" 
-        />
+        <FontAwesomeIcon icon={faLeaf} className="text-5xl text-[#606C38]" />
       </div>
     );
   }
@@ -42,7 +56,9 @@ const PublicFarmerProfile = () => {
   if (!farmer) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FEFAE0]/30">
-        <p className="text-lg text-[#283618] bg-white p-6 rounded-lg shadow">Farmer not found.</p>
+        <p className="text-lg text-[#283618] bg-white p-6 rounded-lg shadow">
+          Farmer not found.
+        </p>
       </div>
     );
   }
@@ -53,14 +69,14 @@ const PublicFarmerProfile = () => {
         {/* Farmer Info Header */}
         <div className="bg-[#283618] rounded-t-xl p-8 text-center shadow-lg">
           <h1 className="text-3xl font-bold text-[#FEFAE0] mb-2">
-            {farmer.name}
+            {farmer.emailId.split("@")[0]}
           </h1>
           <div className="h-1 w-24 bg-[#DDA15E] mx-auto rounded-full mb-4" />
           <a
-            href={"mailto:" + farmer.emailID}
+            href={"mailto:" + farmer.emailId}
             className="text-[#DDA15E] hover:text-[#BC6C25] transition-colors inline-flex items-center gap-2"
           >
-            <span>{farmer.emailID}</span>
+            <span>{farmer.emailId}</span>
           </a>
         </div>
 
@@ -98,32 +114,51 @@ const PublicFarmerProfile = () => {
                 <tbody className="divide-y divide-[#DDA15E]/20">
                   {crops.map((crop) => (
                     <tr
-                      key={crop.cropID}
+                      key={crop._id}
                       className="hover:bg-[#FEFAE0]/50 transition-colors"
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center">
-                          <FontAwesomeIcon icon={faLeaf} className="text-[#606C38] mr-2" />
-                          <span className="font-medium text-[#283618]">{crop.cropName}</span>
+                          <FontAwesomeIcon
+                            icon={faLeaf}
+                            className="text-[#606C38] mr-2"
+                          />
+                          <span className="font-medium text-[#283618]">
+                            {crop.name}
+                          </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-[#283618]">{crop.cropVariety}</td>
+                      <td className="px-6 py-4 text-[#283618]">
+                        {crop.variety}
+                      </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center">
                           {/* <FontAwesomeIcon icon={faDollarSign} className="text-[#BC6C25] mr-2" /> */}
-                          <span className="font-medium text-[#BC6C25]">₹{crop.cropPrice}</span>
+                          <span className="font-medium text-[#BC6C25]">
+                            ₹{crop.price}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center">
-                          <FontAwesomeIcon icon={faWeightScale} className="text-[#606C38] mr-2" />
-                          <span className="text-[#283618]">{crop.cropWeight} kg</span>
+                          <FontAwesomeIcon
+                            icon={faWeightScale}
+                            className="text-[#606C38] mr-2"
+                          />
+                          <span className="text-[#283618]">
+                            {crop.quantity} kg
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center">
-                          <FontAwesomeIcon icon={faLocationDot} className="text-[#DDA15E] mr-2" />
-                          <span className="text-[#283618]">{crop.cropLocation}</span>
+                          <FontAwesomeIcon
+                            icon={faLocationDot}
+                            className="text-[#DDA15E] mr-2"
+                          />
+                          <span className="text-[#283618]">
+                            {crop.location}
+                          </span>
                         </div>
                       </td>
                     </tr>
@@ -133,11 +168,16 @@ const PublicFarmerProfile = () => {
             </div>
           ) : (
             <div className="text-center py-12 bg-[#FEFAE0]/30 rounded-lg">
-              <FontAwesomeIcon icon={faLeaf} className="text-5xl text-[#606C38]/30 mb-4" />
-              <p className="text-lg text-[#606C38]">No crops available at this time.</p>
+              <FontAwesomeIcon
+                icon={faLeaf}
+                className="text-5xl text-[#606C38]/30 mb-4"
+              />
+              <p className="text-lg text-[#606C38]">
+                No crops available at this time.
+              </p>
             </div>
           )}
-          
+
           <div className="mt-8 pt-5 border-t border-[#DDA15E]/20 text-center">
             <button
               onClick={() => window.history.back()}

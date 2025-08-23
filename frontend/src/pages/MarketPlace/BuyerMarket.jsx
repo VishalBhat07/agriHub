@@ -264,7 +264,18 @@ export default function ModernMarketplace() {
                 <motion.button
                   whileHover={{ scale: 1.02, backgroundColor: "#283618" }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => handlePurchaseClick(crop)}
+                  onClick={() => alert("order placed")}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="w-full py-3 bg-[#606C38] text-[#FEFAE0] rounded-lg font-medium text-lg shadow-md"
+                >
+                  Place Order
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02, backgroundColor: "#283618" }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => navigate(`/farmer/${crop.farmerClerkId}`)}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}

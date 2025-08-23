@@ -53,6 +53,7 @@ farmerRouter.post("/:clerkId/crops/add", async (req, res) => {
 farmerRouter.get("/:clerkId/crops", async (req, res) => {
   try {
     const { clerkId } = req.params;
+    console.log("clerk:", clerkId);
     const crops = await Crop.find({ farmerClerkId: clerkId });
     res.json(crops);
   } catch (error) {
