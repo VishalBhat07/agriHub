@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
 import { geminiRouter } from "./routers/geminiRouter.js";
-import { buyerRouter } from "../routers/buyerRouter.js";
-import { farmerRouter } from "../routers/farmerRouter.js";
-import { userRouter } from "../routers/userRouter.js";
-import { equipmentRouter } from "../routers/equipmentRouter.js";
-import { connectDB } from "../utils/connectDB.js";
+import { buyerRouter } from "./routers/buyerRouter.js";
+import { farmerRouter } from "./routers/farmerRouter.js";
+import { userRouter } from "./routers/userRouter.js";
+import { equipmentRouter } from "./routers/equipmentRouter.js";
+import { connectDB } from "./utils/connectDB.js";
 import dotenv from "dotenv";
 dotenv.config();
 
