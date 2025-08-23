@@ -26,5 +26,9 @@ app.use("/api/farmer", farmerRouter);
 app.use("/api/user", userRouter);
 app.use("/api/equipment", equipmentRouter);
 
+app.get("/", () => {
+  res.send("Backend is running");
+});
+
 // Export as Vercel serverless function handler
 export default app;
