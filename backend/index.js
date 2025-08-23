@@ -7,16 +7,12 @@ import { userRouter } from "./routers/userRouter.js";
 import { equipmentRouter } from "./routers/equipmentRouter.js";
 import { connectDB } from "./utils/connectDB.js";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 app.use(express.json());
 
@@ -29,8 +25,11 @@ app.use("/api/user", userRouter);
 app.use("/api/equipment", equipmentRouter);
 
 app.get("/", (req, res) => {
-  res.send("Backend running on Vercel 🚀");
+  res.send("Backend running on Render 🚀");
 });
 
-// Export as Vercel serverless function handler
-export default app;
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
