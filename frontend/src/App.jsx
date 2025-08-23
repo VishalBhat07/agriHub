@@ -35,6 +35,7 @@ import {
 import ChooseRole from "./pages/ChooseRole/ChooseRole";
 import AuthRedirect from "./components/Navbar/AuthRedirect";
 import CertificationDashboard from "./pages/Equipment/Equipment";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -130,6 +131,7 @@ function App() {
         <PlantAssistantButton openModal={openModal} />
         <CropHealthModal isOpen={isOpen} onClose={closeModal} />
       </div>
+      <ToastContainer />
       <Footer />
     </>
   );

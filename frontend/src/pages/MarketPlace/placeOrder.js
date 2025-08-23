@@ -29,7 +29,7 @@ async function placeOrder(buyerClerkId, farmerClerkId, crop, setSelectedCrop) {
     setSelectedCrop(null);
   } catch (error) {
     console.error("Error placing order:", error);
-    toast.success("Error placing order");
+    toast.error("Error placing order");
     setSelectedCrop(null);
     throw error;
   }

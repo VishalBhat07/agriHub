@@ -16,6 +16,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import placeOrder from "./placeOrder";
 import { useUser } from "@clerk/clerk-react";
+import { toast } from "react-toastify";
 
 const MotionCard = motion.div;
 
@@ -256,14 +257,18 @@ export default function ModernMarketplace() {
                 <motion.button
                   whileHover={{ scale: 1.02, backgroundColor: "#283618" }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() =>
-                    placeOrder(
-                      userId,
-                      crop.farmerClerkId,
-                      crop,
-                      setSelectedCrop
-                    )
-                  }
+                  onClick={() => {
+                    if (userId) {
+                      placeOrder(
+                        userId,
+                        crop.farmerClerkId,
+                        crop,
+                        setSelectedCrop
+                      );
+                    } else {
+                      toast.error("You need to login to place and order");
+                    }
+                  }}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
@@ -456,7 +461,7 @@ export default function ModernMarketplace() {
           </motion.div>
         )}
 
-        {selectedCrop && <CropModal crop={selectedCrop} userId={user.id} />}
+        {selectedCrop && <CropModal crop={selectedCrop} userId={user?.id} />}
       </div>
     </motion.div>
   );
